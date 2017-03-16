@@ -1,5 +1,5 @@
 {
-  "name": "dblencowe/post-deploy",
+  "name": "dblencowe/post-deploy-actions",
   "type": "library",
   "description": "Migration style post deployment commands for Laravel",
   "keywords": ["laravel", "deployment", "continuous integration"],
