@@ -40,7 +40,6 @@ class PostDeployRunCommand extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \InvalidArgumentException
      */
     public function handle()
     {
@@ -56,15 +55,9 @@ class PostDeployRunCommand extends Command
 
         $this->install($environment);
 
-        $globalFiles = scandir($this->getActionPath());
-        $fileList = array_map(function($value) {
-            return $this->getActionPath() . '/' . $value;
-        }, $globalFiles);
-
-        $environmentFiles = scandir($this->getActionPath($environment));
-        $fileList += array_map(function($value) use($environment) {
-            return $this->getActionPath($environment) . '/' . $value;
-        }, $environmentFiles);
+        $globalFiles = $this->readDirectory($this->getActionPath());
+        $environmentFiles = $this->readDirectory($this->getActionPath($environment));
+        $fileList = array_merge($globalFiles, $environmentFiles);
 
         foreach ($fileList as $file) {
             if (!is_file($file)) {
@@ -75,22 +68,50 @@ class PostDeployRunCommand extends Command
             $name = end($parts);
 
             // Check if this has already been run
-            $existing = DB::table('postdeploy_actions')->where([
+            $exists = DB::table('postdeploy_actions')->where([
                 'environment' => $environment,
                 'action' => $name,
              ])->first();
-            if ($existing) {
+            if ($exists) {
                 continue;
             }
 
             if (require $file) {
-                $this->line("<info>Ran $file</info>");
-
-                // Write the name to the database
-                DB::table('postdeploy_actions')->insert([
-                    ['environment' => $environment, 'action' => $name, 'batch' => $batch],
-                ]);
+                $this->success($file, $environment, $name, $batch);
             }
         }
+    }
+
+    /**
+     * Get a list of files in a directory with their full path
+     *
+     * @param $path
+     * @return array
+     */
+    private function readDirectory($path): array
+    {
+        $files = scandir($path);
+
+        return array_map(function($value) use($path) {
+            return $path . DIRECTORY_SEPARATOR . $value;
+        }, $files);
+    }
+
+    /**
+     * Display a success message and log the run in the DB
+     *
+     * @param $file
+     * @param $environment
+     * @param $name
+     * @param $batch
+     */
+    private function success($file, $environment, $name, $batch)
+    {
+        $this->line("<info>Ran $file</info>");
+
+        // Write the name to the database
+        DB::table('postdeploy_actions')->insert([
+            ['environment' => $environment, 'action' => $name, 'batch' => $batch],
+        ]);
     }
 }
