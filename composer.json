@@ -13,6 +13,6 @@
     "laravel": ">= 5.1"
   },
   "autoload": {
-    "psr-4": { "Dblencowe\\PostDeploy": "src/" }
+    "psr-4": { "Dblencowe\\PostDeploy\\": "src/" }
   }
 }
