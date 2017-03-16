@@ -12,5 +12,7 @@
     "php": ">= 7.0",
     "laravel": ">= 5.1"
   },
-  "autoload": { "Dblencowe\\PostDeploy": "src/" }
+  "autoload": {
+    "psr-4": { "Dblencowe\\PostDeploy": "src/" }
+  }
 }
