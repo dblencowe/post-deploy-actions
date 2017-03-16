@@ -6,7 +6,7 @@
   "homepage": "http://www.dblencowe.com",
   "license": "MIT",
   "authors": [
-    {"name": "Dave Blencowe", "dblencowe@boardbox.io"}
+    {"name": "Dave Blencowe", "email": "dblencowe@boardbox.io"}
   ],
   "require": {
     "php": ">= 7.0",
