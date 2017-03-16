@@ -1,0 +1,16 @@
+{
+  "name": "dblencowe/post-deploy",
+  "type": "library",
+  "description": "Migration style post deployment commands for Laravel",
+  "keywords": ["laravel", "deployment", "continuous integration"],
+  "homepage": "http://www.dblencowe.com",
+  "license": "MIT",
+  "authors": [
+    {"name": "Dave Blencowe", "dblencowe@boardbox.io"}
+  ],
+  "require": {
+    "php": ">= 7.0",
+    "laravel": ">= 5.1"
+  },
+  "autoload": { "Dblencowe\\PostDeploy": "src/" }
+}
