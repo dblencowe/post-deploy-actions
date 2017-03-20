@@ -2,7 +2,7 @@
   "name": "dblencowe/post-deploy-actions",
   "type": "library",
   "description": "Migration style post deployment commands for Laravel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": ["laravel", "deployment", "continuous integration"],
   "homepage": "http://www.dblencowe.com",
   "license": "MIT",
@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": ">= 7.0",
-    "laravel": ">= 5.1"
+    "laravel/framework": ">= 5.1"
   },
   "autoload": {
     "psr-4": { "Dblencowe\\PostDeploy\\": "src/" }
