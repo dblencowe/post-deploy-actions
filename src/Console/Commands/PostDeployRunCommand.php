@@ -2,7 +2,6 @@
 
 namespace Dblencowe\PostDeploy\Console\Commands;
 
-use DB;
 use Dblencowe\PostDeploy\PostDeployTrait;
 use Illuminate\Console\Command;
 use Illuminate\Database\Connection;
@@ -51,7 +50,7 @@ class PostDeployRunCommand extends Command
         }
 
         // Set the batch number
-        $batch = DB::table('postdeploy_actions')->select('batch')->limit(1)->orderBy('batch', 'DESC')->first()->batch + 1;
+        $batch = $this->app['db']->table('postdeploy_actions')->select('batch')->limit(1)->orderBy('batch', 'DESC')->first()->batch + 1;
 
         $this->install($environment);
 
@@ -68,7 +67,7 @@ class PostDeployRunCommand extends Command
             $name = end($parts);
 
             // Check if this has already been run
-            $exists = DB::table('postdeploy_actions')->where([
+            $exists = $this->app['db']->table('postdeploy_actions')->where([
                 'environment' => $environment,
                 'action' => $name,
              ])->first();
@@ -110,7 +109,7 @@ class PostDeployRunCommand extends Command
         $this->line("<info>Ran $file</info>");
 
         // Write the name to the database
-        DB::table('postdeploy_actions')->insert([
+        $this->app['db']->table('postdeploy_actions')->insert([
             ['environment' => $environment, 'action' => $name, 'batch' => $batch],
         ]);
     }
