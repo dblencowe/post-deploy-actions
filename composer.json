@@ -2,7 +2,7 @@
   "name": "dblencowe/post-deploy-actions",
   "type": "library",
   "description": "Migration style post deployment commands for Laravel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": ["laravel", "deployment", "continuous integration"],
   "homepage": "http://www.dblencowe.com",
   "license": "MIT",
