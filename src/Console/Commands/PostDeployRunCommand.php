@@ -50,7 +50,11 @@ class PostDeployRunCommand extends Command
         }
 
         // Set the batch number
-        $batch = $this->app['db']->table('postdeploy_actions')->select('batch')->limit(1)->orderBy('batch', 'DESC')->first()->batch + 1;
+        if ($rst = $this->app['db']->table('postdeploy_actions')->select('batch')->limit(1)->orderBy('batch', 'DESC')->first()) {
+            $batch = $rst->batch + 1;
+        } else {
+            $batch = 1;
+        }
 
         $this->install($environment);
 
